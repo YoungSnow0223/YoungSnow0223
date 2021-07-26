@@ -15,14 +15,14 @@ ASoulLikeCharacter::ASoulLikeCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Ä«¸Ş¶ó°¡ rotation ´ã´ç
+	// ì¹´ë©”ë¼ê°€ rotation ë‹´ë‹¹
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
 	
 
-	// Äİ¸®Àü Ä¸½¶ Å©±â Á¶Àı
+	// ì½œë¦¬ì „ ìº¡ìŠ í¬ê¸° ì¡°ì ˆ
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
 	ConstructorHelpers::FObjectFinder<UAnimBlueprint> myAnimBP(TEXT("/Game/PlayerCharacter/Animation/SLG_Character_AnimBP.SLG_Character_AnimBP"));
@@ -38,44 +38,44 @@ ASoulLikeCharacter::ASoulLikeCharacter()
 		CharacterAttack1Montage = myAnimMontage1.Object;
 	}
 
-	// ¸Ş½Ã¸¦ È¸ÀüÇÏ°í ¿òÁ÷¿© Ä¸½¶ ÄÄÆ÷³ÍÆ®¿¡ ¾Ë¸Â°Ô ¸ÂÃá´Ù
+	// ë©”ì‹œë¥¼ íšŒì „í•˜ê³  ì›€ì§ì—¬ ìº¡ìŠ ì»´í¬ë„ŒíŠ¸ì— ì•Œë§ê²Œ ë§ì¶˜ë‹¤
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
 
 	GetMesh()->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 
-	// Ä³¸¯ÅÍ ÀÌµ¿ ±¸¼º
+	// ìºë¦­í„° ì´ë™ êµ¬ì„±
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->JumpZVelocity = 350.0f;
 
-	// Ä«¸Ş¶ó ºÕ ¸¸µé±â (Äİ¸®ÀüÀÌ ÀÖ´Ù¸é ÇÃ·¹ÀÌ¾î ÂÊÀ¸·Î ²ø¾î´ç±ä´Ù)
+	// ì¹´ë©”ë¼ ë¶ ë§Œë“¤ê¸° (ì½œë¦¬ì „ì´ ìˆë‹¤ë©´ í”Œë ˆì´ì–´ ìª½ìœ¼ë¡œ ëŒì–´ë‹¹ê¸´ë‹¤)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	check(CameraBoom);
 
 	CameraBoom->AttachTo(RootComponent);
 
-	// Ä«¸Ş¶ó°¡ Ä³¸¯ÅÍ µÚÀÇ ÀÏÁ¤ °£°İ¸¸Å­ µû¶ó¿Â´Ù
+	// ì¹´ë©”ë¼ê°€ ìºë¦­í„° ë’¤ì˜ ì¼ì • ê°„ê²©ë§Œí¼ ë”°ë¼ì˜¨ë‹¤
 	CameraBoom->TargetArmLength = 250.0f;
 
 	// rotate arm based on the controller
 	CameraBoom->bUsePawnControlRotation = true;
 
-	// ÇÃ·¹ÀÌ¾î·ÎÀÇ ¿ÀÇÁ¼Â
+	// í”Œë ˆì´ì–´ë¡œì˜ ì˜¤í”„ì…‹
 	CameraBoom->AddRelativeLocation(FVector(0.0f, 100.0f, 160.0f));
 
-	// Follow Ä«¸Ş¶ó »ı¼º
+	// Follow ì¹´ë©”ë¼ ìƒì„±
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	check(FollowCamera);
 
-	// ºÕ ³¡¿¡ Ä«¸Ş¶ó¸¦ ¿¬°áÇÏ°í ºÕÀÌ ÄÁÆ®·Ñ·¯ ¹æÇâ°ú ÀÏÄ¡ÇÏµµ·Ï Á¶Á¤ÇÑ´Ù
+	// ë¶ ëì— ì¹´ë©”ë¼ë¥¼ ì—°ê²°í•˜ê³  ë¶ì´ ì»¨íŠ¸ë¡¤ëŸ¬ ë°©í–¥ê³¼ ì¼ì¹˜í•˜ë„ë¡ ì¡°ì •í•œë‹¤
 	FollowCamera->AttachTo(CameraBoom, USpringArmComponent::SocketName);
 
 	// FollowCamera cannot controll rotation
 	FollowCamera->bUsePawnControlRotation = false;
-	// Ä«¸Ş¶ó°¡ ¾à°£ ³»·Á´Ùº¸µµ·Ï ÇÏ±â À§ÇÑ È¸Àü º¯°æ
+	// ì¹´ë©”ë¼ê°€ ì•½ê°„ ë‚´ë ¤ë‹¤ë³´ë„ë¡ í•˜ê¸° ìœ„í•œ íšŒì „ ë³€ê²½
 	FollowCamera->AddRelativeRotation(FQuat(FRotator(-30.0f, 0.0f, 0.0f)));
 
-	// ID 0(±âº» ÄÁÆ®·Ñ·¯)ÀÇ ÀÔ·Â °¡Á®¿À±â
+	// ID 0(ê¸°ë³¸ ì»¨íŠ¸ë¡¤ëŸ¬)ì˜ ì…ë ¥ ê°€ì ¸ì˜¤ê¸°
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 }
@@ -104,28 +104,28 @@ void ASoulLikeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	// °ÔÀÓÇÃ·¹ÀÌ Å° ¹ÙÀÎµå ¼³Á¤ÇÏ±â
+	// ê²Œì„í”Œë ˆì´ í‚¤ ë°”ì¸ë“œ ì„¤ì •í•˜ê¸°
 	check(PlayerInputComponent);
 
-	// Á¡ÇÁ
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	// êµ¬ë¥´ê¸°
+	PlayerInputComponent->BindAction("Dodge", IE_Pressed, this, &ACharacter::Dodge);
+	PlayerInputComponent->BindAction("Dodge", IE_Released, this, &ACharacter::Dodging);
 
-	// ¾ÕÀ¸·Î ÀÌµ¿
+	// ì•ìœ¼ë¡œ ì´ë™
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASoulLikeCharacter::MoveForward);
 
-	// ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+	// ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASoulLikeCharacter::MoveRight);
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	// Á¶ÀÌ½ºÆ½: PlayerInputComponent->BindAxis("TurnRate", this, &ASoulLikeCharacter::TurnAtRate);
+	// ì¡°ì´ìŠ¤í‹±: PlayerInputComponent->BindAxis("TurnRate", this, &ASoulLikeCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	// Á¶ÀÌ½ºÆ½ PlayerInputComponent->BindAxis("LookUpRate", this, &ASoulLikeCharacter::LookUpAtRate);
+	// ì¡°ì´ìŠ¤í‹± PlayerInputComponent->BindAxis("LookUpRate", this, &ASoulLikeCharacter::LookUpAtRate);
 
-	// °ø°İ ½ºÅÄ½º·Î ÀüÈ¯
+	// ê³µê²© ìŠ¤íƒ ìŠ¤ë¡œ ì „í™˜
 	/*PlayerInputComponent->BindAction("ArmPlayer", IE_Pressed, this, &ASoulLikeCharacter::ArmPlayer);*/
 
-	// °ø°İ 1
+	// ê³µê²© 1
 	PlayerInputComponent->BindAction("Attack1", IE_Pressed, this, &ASoulLikeCharacter::Attack1);
 	PlayerInputComponent->BindAction("Attack1", IE_Released, this, &ASoulLikeCharacter::StopAttack1);
 }
